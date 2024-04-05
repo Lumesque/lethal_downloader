@@ -38,6 +38,9 @@ class Version:
         else:
             return False
 
+    def __str__(self):
+        return self.version
+
 @define
 class Mod:
     name: str

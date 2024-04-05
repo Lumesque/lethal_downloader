@@ -35,7 +35,7 @@ class CommonDriver:
         return False if self.driver == None else True
 
     def get(self, link):
-        self.driver.get(link)
+        self.driver.get(str(link))
 
     def get_clickable_images_and_text(self):
         text = self.driver.find_elements(By.TAG_NAME, "h5")
@@ -56,14 +56,26 @@ class CommonDriver:
     # Uses custom class
     def download(self, mod):
         self.get(mod.url)
-        if mod.version == 'latest':
+        if str(mod.version) == 'latest':
             [x for x in self.driver.find_elements(By.XPATH, "//a[@type='button']")
              if x.text == 'Manual Download'][0].click()
         else:
-            string = f'Version {mod.version}'
-            [version] = [x for x in self.driver.find_elements(By.XPATH, "//a")
-                         if x.text == string]
-            version.click()
+            string = f'{mod.version}'
+            _version_index = 1   
+            _download_index = 3
+            [versions_page] = [x for x in self.driver.find_elements(By.CLASS_NAME, "nav-link")
+                               if x.text == "Versions"]
+            versions_page.click()
+            [table] = [x for x in self.driver.find_elements(By.XPATH, "//table")]
+            rows = table.find_elements(By.TAG_NAME, "tr")
+            for row in rows:
+
+                data = row.find_elements(By.TAG_NAME, "td")
+                if not data:
+                    continue
+                elif data[1].text == string:
+                    data[_download_index].find_elements(By.TAG_NAME, "a")[0].click()
+                    break
 
     def update(self, mod, force=False, force_latest_dependencies=False):
         if mod.url is None or force is True:
