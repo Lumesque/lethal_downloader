@@ -1,6 +1,7 @@
 from attrs import define, field, asdict
 from pathlib import Path
 from typing import Union, Optional
+import os
 
 @define
 class Version:
@@ -51,5 +52,3 @@ class Mod:
 
     def to_dict(self):
         return asdict(self)
-
-
