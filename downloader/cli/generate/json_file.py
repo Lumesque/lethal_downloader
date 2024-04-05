@@ -19,7 +19,7 @@ def main():
             '-u',
             '--update',
             action='store_true',
-            help="Update mod url paths and put them into json, find dependencies, and change version dependencies if applicable"
+            help="When updating mod paths and dependencies, change version dependencies or versions of latest to actual verison numbers if applicable"
             )
     parser.add_argument(
             '-d',
@@ -35,9 +35,8 @@ def main():
             container.append(
                     Mod(line.strip())
                     )
-    if args.update:
-        with CommonDriver(web_browser=args.driver) as driver:
-            container = update_mods(driver, container, get_latest=True)
+    with CommonDriver(web_browser=args.driver) as driver:
+        container = update_mods(driver, container, args.update)
 
     with args.file.with_suffix('.json').open(mode="w") as f:
         json.dump(container.to_json(), f,indent=4)

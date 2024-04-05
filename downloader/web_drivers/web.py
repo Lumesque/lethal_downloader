@@ -6,7 +6,7 @@ from collections import namedtuple
 from typing import Any
 from contextlib import suppress
 from ..mods.Mods import Mod
-from ..exceptions import BrowserNotFound, VersionNotFound
+from ..exceptions import BrowserNotFound, VersionNotFound, ModNotFound
 import time
 import re
 
@@ -46,7 +46,7 @@ class CommonDriver:
         if len(text) != len(imgs):
             raise ValueError("Could not align text with clickable images")
         elif not text and not imgs:
-            raise ValueError("Expected text and images, not populated")
+            raise ModNotFound("Mod search results proved fruitless!")
         return [LethalDownloadDiv(text=txt.text, img=img) for txt, img in zip(text, imgs)]
 
     def search(self, mod):

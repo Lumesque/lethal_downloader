@@ -1,4 +1,5 @@
 from collections import deque
+import traceback
 
 def update_mods(installer, mods, get_latest = False, ignore_errors = True):
     find_urls = deque(mods)
@@ -23,6 +24,17 @@ def update_mods(installer, mods, get_latest = False, ignore_errors = True):
             if not ignore_errors:
                 raise e
             else:
-                print("Error while updating mod", current_mod, e)
+                print("Error while updating mod", current_mod, traceback.format_exc())
     return mods
 
+def download_mods(installer, mods, force_latest = False, ignore_errors = True):
+    for mod in mods:
+        try:
+            if force_latest:
+                mod.version = "latest"
+            installer.download(mod)
+        except Exception as e:
+            if not ignore_errors:
+                raise e
+            else:
+                print("Error while downloading mod", mod, traceback.format_exc())

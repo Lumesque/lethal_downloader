@@ -1,5 +1,5 @@
 from .mods.Mods import Mod
-from .utils import update_mods
+from .utils import update_mods, download_mods
 from pathlib import Path
 import json
 import logging
@@ -20,10 +20,7 @@ def main(settings: "Settings", force_all_latest=False):
     logger.info("Starting version control, looking through all mods")
     with driver as driver:
         mods = update_mods(driver, mods)
-        for mod in mods:
-            if force_all_latest:
-                mod.version = "latest"
-            driver.download(mod)
+        download_mods(driver, mods, force_all_latest)
         input("Press any button to continue")
     print("Finished")
 
