@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 from ...mods.Mods import Mod
 from ...mods.containers import ModContainer
+from ...web_drivers.web import CommonDriver
+from ...utils import update_mods
 
 def main():
     parser = argparse.ArgumentParser(
@@ -13,6 +15,18 @@ def main():
         type = Path,
         help="File with list of mod names separated by new line"
     )
+    parser.add_argument(
+            '-u',
+            '--update',
+            action='store_true',
+            help="Update mod url paths and put them into json, find dependencies, and change version dependencies if applicable"
+            )
+    parser.add_argument(
+            '-d',
+            '--driver',
+            help="Web driver to use",
+            default="Chrome"
+            )
     args = parser.parse_args()
     container = ModContainer()
 
@@ -21,6 +35,10 @@ def main():
             container.append(
                     Mod(line.strip())
                     )
+    if args.update:
+        with CommonDriver(web_browser=args.driver) as driver:
+            container = update_mods(driver, container)
+
     with args.file.with_suffix('.json').open(mode="w") as f:
         json.dump(container.to_json(), f,indent=4)
 

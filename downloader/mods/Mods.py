@@ -56,4 +56,5 @@ class Mod:
     def to_dict(self):
         out = asdict(self)
         out['version'] = out['version']['version']
+        out['url'] = str(out['url'])
         return out
