@@ -37,7 +37,7 @@ def main():
                     )
     if args.update:
         with CommonDriver(web_browser=args.driver) as driver:
-            container = update_mods(driver, container)
+            container = update_mods(driver, container, get_latest=True)
 
     with args.file.with_suffix('.json').open(mode="w") as f:
         json.dump(container.to_json(), f,indent=4)

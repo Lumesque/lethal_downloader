@@ -6,12 +6,14 @@ from collections import namedtuple
 from typing import Any
 from contextlib import suppress
 from ..mods.Mods import Mod
-from ..exceptions import BrowserNotFound
+from ..exceptions import BrowserNotFound, VersionNotFound
 import time
 import re
 
 DEFAULT_SEARCH = "https://thunderstore.io/c/lethal-company/"
 LethalDownloadDiv = namedtuple("LethalDownloadDiv", ["text", "img"])
+_version_index = 1   
+_download_index = 3
 
 @dataclass
 class CommonDriver:
@@ -61,27 +63,33 @@ class CommonDriver:
              if x.text == 'Manual Download'][0].click()
         else:
             string = f'{mod.version}'
-            _version_index = 1   
-            _download_index = 3
-            [versions_page] = [x for x in self.driver.find_elements(By.CLASS_NAME, "nav-link")
-                               if x.text == "Versions"]
-            versions_page.click()
-            [table] = [x for x in self.driver.find_elements(By.XPATH, "//table")]
-            rows = table.find_elements(By.TAG_NAME, "tr")
-            for row in rows:
+            self.go_to_versions()
+            td = self.get_tr_with_version(string)
+            if td is None:
+                raise VersionNotFound(f"Could not find version {string}")
+            td[_download_index].find_elements(By.TAG_NAME, "a")[0].click()
 
-                data = row.find_elements(By.TAG_NAME, "td")
-                if not data:
-                    continue
-                elif data[1].text == string:
-                    data[_download_index].find_elements(By.TAG_NAME, "a")[0].click()
-                    break
+    def go_to_versions(self):
+        [versions_page] = [x for x in self.driver.find_elements(By.CLASS_NAME, "nav-link")
+                           if x.text == "Versions"]
+        versions_page.click()
 
-    def update(self, mod, force=False, force_latest_dependencies=False):
+    def get_tr_with_version(self, vers_string = 'latest'):
+        [table] = [x for x in self.driver.find_elements(By.XPATH, "//table")]
+        rows = table.find_elements(By.TAG_NAME, "tr")
+        for row in rows:
+            data = row.find_elements(By.TAG_NAME, "td")
+            if not data:
+                continue
+            elif vers_string == 'latest' or data[_version_index].text == vers_string:
+                return data
+
+
+    def update(self, mod, force=False, force_latest_dependencies=False, get_latest: bool = False):
         if mod.url is None or force is True:
             self.search(mod.name.replace(' ', '_'))
             download_divs = self.get_clickable_images_and_text()
-            conv_str = lambda x: x if mod.strict else x.lower()
+            conv_str = lambda x: x if mod._strict else x.lower()
             if len(download_divs) == 1:
                 wanted_mod = download_divs[0]
             else:
@@ -90,6 +98,10 @@ class CommonDriver:
             wanted_mod.img.click()
             mod.url = self.driver.current_url
         else:
+            self.get(mod.url)
+        if get_latest and str(mod.version) == "latest":
+            self.go_to_versions()
+            mod.version = self.get_tr_with_version(str(mod.version))[_version_index].text
             self.get(mod.url)
         values_to_return = [mod]
         with suppress(ValueError):

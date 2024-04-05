@@ -1,10 +1,10 @@
 from collections import deque
 
-def update_mods(installer, mods):
+def update_mods(installer, mods, get_latest = False):
     find_urls = deque(mods)
     while find_urls:
         current_mod = find_urls.popleft()
-        extra_mods = installer.update(current_mod)
+        extra_mods = installer.update(current_mod, get_latest=get_latest)
         for mod in extra_mods:
             if mod in mods and mod.url is not None:
                 [mod_to_update] = [x for x in mods if x == mod]
