@@ -6,6 +6,7 @@ from collections import namedtuple
 from typing import Any
 from contextlib import suppress
 from ..mods.Mods import Mod
+from ..exceptions import BrowserNotFound
 import time
 import re
 
@@ -16,24 +17,22 @@ LethalDownloadDiv = namedtuple("LethalDownloadDiv", ["text", "img"])
 class CommonDriver:
     web_browser: str
     drive_cls: Any = None
-    _started: bool = field(init=False, repr=False, default=False)
     driver: Any = field(init=False, repr=False, default=None)
 
     def __post_init__(self):
         if self.drive_cls is None:
-             self.drive_cls = eval(f"webdriver.{self.web_browser.title()}")
+            try:
+                self.drive_cls = eval(f"webdriver.{self.web_browser.title()}")
+            except AttributeError as e:
+                raise BrowserNotFound(f"{self.web_browser.title()} not found, not a valid browser") from e
 
     def start(self):
-        if not self._started:
+        if not self.started:
             self.driver = self.drive_cls()
 
     @property
-    def _started(self):
-        return self.__started__
-
-    @_started.setter
-    def _started(self, val):
-        self.__started__ = False if self.driver is None else True
+    def started(self):
+        return False if self.driver == None else True
 
     def get(self, link):
         self.driver.get(link)

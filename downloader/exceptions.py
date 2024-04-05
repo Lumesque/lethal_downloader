@@ -1,0 +1,1 @@
+class BrowserNotFound(Exception): pass
