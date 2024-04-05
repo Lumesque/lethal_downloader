@@ -45,7 +45,7 @@ class Version:
 class Mod:
     name: str
     version: str = field(default="latest", eq=False, converter=Version)
-    _strict: bool = field(default=False, eq=False, repr=False)
+    _strict: bool = field(default=False, eq=False, repr=False, alias='_strict')
     # None is the value if we don't know the value, allow it in the setter
     url: Optional[Union[str, Path]] = field(
             default=None, 

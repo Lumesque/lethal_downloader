@@ -57,6 +57,9 @@ class CommonDriver:
 
     # Uses custom class
     def download(self, mod):
+        if mod.url is None:
+            print("Cannot download mod without url - ",mod)
+            return
         self.get(mod.url)
         if str(mod.version) == 'latest':
             [x for x in self.driver.find_elements(By.XPATH, "//a[@type='button']")
