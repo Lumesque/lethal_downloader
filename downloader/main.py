@@ -1,4 +1,5 @@
 from .mods.Mods import Mod
+from .utils import update_mods
 from pathlib import Path
 import json
 import logging
@@ -56,5 +57,3 @@ if __name__ == "__main__":
                 ]
         )
     main(settings)
-
-
