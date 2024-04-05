@@ -54,4 +54,6 @@ class Mod:
             )
 
     def to_dict(self):
-        return asdict(self)
+        out = asdict(self)
+        out['version'] = out['version']['version']
+        return out
