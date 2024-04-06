@@ -12,7 +12,7 @@ def return_action(here):
             setattr(namespace, self.dest, Path(here, values))
     return ActionParser
 
-def main():
+def main() -> int:
     here = Path(__file__).parent
     all_options = {x.name.removesuffix('.py') for x in here.glob("*") if not x.name.startswith("_") and "lethal_md" not in x.name}
     options =[
@@ -28,11 +28,8 @@ def main():
         choices=options,
         action=return_action(here)
     )
-    print(sys.argv)
     args, *extras = parser.parse_known_args(sys.argv[1:2])
-    subprocess.run(["python", args.script, *sys.argv[2:]])
-    #x = importlib.import_module(f".{args.action}", package=__package__)
-    #x.main()
+    return subprocess.run(["python", args.script, *sys.argv[2:]])
 
 
 
