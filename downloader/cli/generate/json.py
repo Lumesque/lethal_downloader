@@ -1,10 +1,14 @@
 import argparse
 import json
+import sys
+import os
+path = os.path.realpath(os.path.dirname(__file__) + '/../../..')
+sys.path.insert(0, path)    
 from pathlib import Path
-from ...mods.Mods import Mod
-from ...mods.containers import ModContainer
-from ...web_drivers.web import CommonDriver
-from ...utils import update_mods
+from downloader.mods.Mods import Mod
+from downloader.mods.containers import ModContainer
+from downloader.web_drivers.web import CommonDriver
+from downloader.utils import update_mods
 
 def main():
     parser = argparse.ArgumentParser(

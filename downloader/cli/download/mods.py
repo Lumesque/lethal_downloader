@@ -1,8 +1,12 @@
 import json
 import argparse
-from ...web_drivers.web import CommonDriver 
-from ...mods.containers import ModContainer
-from ...utils import download_mods
+import os
+import sys
+path = os.path.realpath(os.path.dirname(__file__) + '/../../..')
+sys.path.insert(0, path)    
+from downloader.web_drivers.web import CommonDriver 
+from downloader.mods.containers import ModContainer
+from downloader.utils import download_mods
 from pathlib import Path
 
 
