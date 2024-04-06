@@ -44,6 +44,7 @@ def main():
 
     with args.file.with_suffix('.json').open(mode="w") as f:
         json.dump(container.to_json(), f,indent=4)
+    print("Wrote to ", args.file.with_suffix('.json'))
 
 if __name__ == "__main__":
     main()
