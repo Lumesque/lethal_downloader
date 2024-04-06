@@ -42,9 +42,9 @@ classifiers = [
 ]
 
 [project.scripts]
-lethal = "downloader.cli.lethal_md:main"
+lethal = "lethal_md.cli.lethal_md:main"
 
 [tool.setuptools_scm]
-version_file = "downloader/_version.py"
+version_file = "lethal_md/_version.py"
 
 
