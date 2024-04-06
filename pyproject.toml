@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=60", "wheel", "setuptools-scm>=8.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lethal_md"
+requires-python = ">=3.8"
+dynamic = ["version"]
+description = "Lethal Company Mod Downloader"
+dependencies = [
+        "attrs",
+        "certifi",
+        "h11",
+        "idna",
+        "outcome",
+        "PySocks",
+        "selenium",
+        "sniffio",
+        "sortedcontainers",
+        "trio",
+        "trio-websocket",
+        "typing_extensions",
+        "urllib3",
+        "wsproto",
+]
+authors = [
+    { name = "Joshua Luckie", email = "luckiejoshu@gmail.com" },
+    ]
+maintainers = [
+    { name = "Joshua Luckie", email = "luckiejoshu@gmail.com" },
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+keywords = ["lethal", "company", "downloader", "selenium"]
+classifiers = [
+"Development Status :: 4 - Beta",
+
+"Intended Audience :: Developers",
+"Topic :: Games/Entertainment",
+
+"License :: Public Domain",
+]
+
+[project.scripts]
+lethal = "downloader.cli.lethal_md:main"
+
+[tool.setuptools_scm]
+version_file = "downloader/_version.py"
+
+
