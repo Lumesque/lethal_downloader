@@ -1,8 +1,6 @@
 from .Mods import Mod
 from typing import List, Dict
 
-import os
-
 
 class ModContainer(list):
 
