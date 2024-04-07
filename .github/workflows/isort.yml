@@ -20,4 +20,4 @@ jobs:
         pip install isort
     - name: Analysing the code with pylint
       run: |
-        isort --check-only --skip-gitignore
+        isort . --check-only --skip-gitignore
