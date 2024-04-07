@@ -1,11 +1,8 @@
 from .mods.Mods import Mod
 from .utils import update_mods, download_mods
-from pathlib import Path
-import json
 import logging
 from typing import NamedTuple, List
 from .navigators.web import CommonDriver
-from collections import deque
 
 logger = logging.getLogger('main')
 

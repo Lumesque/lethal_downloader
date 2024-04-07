@@ -1,14 +1,10 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
-from dataclasses import dataclass, InitVar, field
+from dataclasses import dataclass, field
 from collections import namedtuple
 from typing import Any
 from contextlib import suppress
 from ..mods.Mods import Mod
 from ..exceptions import BrowserNotFound, VersionNotFound, ModNotFound
-import time
-import re
 
 DEFAULT_SEARCH = "https://thunderstore.io/c/lethal-company/"
 LethalDownloadDiv = namedtuple("LethalDownloadDiv", ["text", "img"])
@@ -39,14 +35,14 @@ class CommonDriver:
     def get(self, link):
         self.driver.get(str(link))
 
-    def get_clickable_images_and_text(self):
+    def get_clickable_images_and_text(self, name: str = "unknown"):
         text = self.driver.find_elements(By.TAG_NAME, "h5")
         imgs = [x for x in self.driver.find_elements(By.CLASS_NAME, "w-100")
                 if x.tag_name == "img"]
         if len(text) != len(imgs):
             raise ValueError("Could not align text with clickable images")
         elif not text and not imgs:
-            raise ModNotFound(f"Mod search results proved fruitless! Could not find mod {mod.name}")
+            raise ModNotFound(f"Mod search results proved fruitless! Could not find {name}")
         return [LethalDownloadDiv(text=txt.text, img=img) for txt, img in zip(text, imgs)]
 
     def search(self, mod):
@@ -91,7 +87,7 @@ class CommonDriver:
     def update(self, mod, force=False, force_latest_dependencies=False, get_latest: bool = False):
         if mod.url is None or force is True:
             self.search(mod.name.replace(' ', '_'))
-            download_divs = self.get_clickable_images_and_text()
+            download_divs = self.get_clickable_images_and_text(name=mod.name)
             conv_str = lambda x: x if mod._strict else x.lower()
             if len(download_divs) == 1:
                 wanted_mod = download_divs[0]

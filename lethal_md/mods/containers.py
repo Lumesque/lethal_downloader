@@ -1,8 +1,5 @@
-from pathlib import Path
 from .Mods import Mod
-from attrs import define, field
-from typing import List, Union
-import json
+from typing import List, Dict
 
 import os
 
@@ -17,7 +14,7 @@ class ModContainer(list):
         return out
 
     @classmethod
-    def from_json(cls, json) -> List[Mod]:
+    def from_json(cls, json: Dict) -> List[Mod]:
         out = cls()
         for name, mod in json.items():
             out.append(Mod(name, **mod))

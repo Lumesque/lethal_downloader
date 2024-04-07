@@ -1,7 +1,6 @@
 from attrs import define, field, asdict
 from pathlib import Path
 from typing import Union, Optional
-import os
 
 @define
 class Version:

@@ -1,5 +1,4 @@
 import argparse
-import importlib
 import subprocess
 import sys
 from pathlib import Path
@@ -14,7 +13,6 @@ def return_action(here):
 
 def main() -> int:
     here = Path(__file__).parent
-    all_options = {x.name.removesuffix('.py') for x in here.glob("*") if not x.name.startswith("_") and "lethal_md" not in x.name}
     options =[
         x.with_suffix('').parts[-2:]
         for x in here.glob("**/*") if "lethal_md" not in x.name and x.parts[-2] != "cli"]
