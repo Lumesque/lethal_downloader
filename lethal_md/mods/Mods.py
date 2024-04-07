@@ -1,6 +1,8 @@
-from attrs import define, field, asdict
 from pathlib import Path
-from typing import Union, Optional
+from typing import Optional, Union
+
+from attrs import asdict, define, field
+
 
 @define
 class Version:

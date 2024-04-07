@@ -1,5 +1,6 @@
-from collections import deque
 import traceback
+from collections import deque
+
 
 def update_mods(installer, mods, get_latest = False, ignore_errors = True):
     find_urls = deque(mods)

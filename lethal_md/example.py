@@ -1,8 +1,9 @@
-from .mods.Mods import Mod
-from .utils import update_mods, download_mods
 import logging
-from typing import NamedTuple, List
+from typing import List, NamedTuple
+
+from .mods.Mods import Mod
 from .navigators.web import CommonDriver
+from .utils import download_mods, update_mods
 
 logger = logging.getLogger('main')
 

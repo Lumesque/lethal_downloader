@@ -1,14 +1,17 @@
 import argparse
 import json
-import sys
 import os
+import sys
+
 path = os.path.realpath(os.path.dirname(__file__) + '/../../..')
 sys.path.insert(0, path)    
 from pathlib import Path
-from lethal_md.mods.Mods import Mod
+
 from lethal_md.mods.containers import ModContainer
+from lethal_md.mods.Mods import Mod
 from lethal_md.navigators.web import CommonDriver
 from lethal_md.utils import update_mods
+
 
 def main():
     parser = argparse.ArgumentParser(

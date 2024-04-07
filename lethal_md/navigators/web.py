@@ -1,10 +1,12 @@
-from selenium.webdriver.common.by import By
-from dataclasses import dataclass, field
 from collections import namedtuple
-from typing import Any
 from contextlib import suppress
+from dataclasses import dataclass, field
+from typing import Any
+
+from selenium.webdriver.common.by import By
+
+from ..exceptions import BrowserNotFound, ModNotFound, VersionNotFound
 from ..mods.Mods import Mod
-from ..exceptions import BrowserNotFound, VersionNotFound, ModNotFound
 
 DEFAULT_SEARCH = "https://thunderstore.io/c/lethal-company/"
 LethalDownloadDiv = namedtuple("LethalDownloadDiv", ["text", "img"])
