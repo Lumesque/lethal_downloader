@@ -20,7 +20,7 @@ def main() -> int:
     options = [".".join(x) for x in options if not x[0].startswith("_") and not x[1].startswith("_")]
 
     parser = argparse.ArgumentParser(
-            description = f" Use cases to {here.name} mods ",
+            description = f"Download mods for lethal company, and version control them using jsons",
     )
     parser.add_argument(
         'script',
